@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navigation & Routing - Experiment 5</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+    }
+    body, html {
+      height: 100%;
+      overflow: hidden;
+    }
+    .screen {
+      display: none;
+      height: 100vh;
+      width: 100vw;
+      flex-direction: column;
+    }
+    .active {
+      display: flex;
+    }
+
+    /* AppBars */
+    .appbar {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      color: white;
+      font-size: 20px;
+      font-weight: 500;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .back-btn {
+      position: absolute;
+      left: 16px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    /* Backgrounds */
+    #home-screen .appbar { background-color: #9c27b0; }
+    #home-screen .body {
+      background: linear-gradient(135deg, #b820a0 0%, #00a2ed 100%);
+    }
+
+    #profile-screen .appbar { background-color: #e91e63; }
+    #profile-screen .body {
+      background: linear-gradient(135deg, #008be3 0%, #e91e63 100%);
+    }
+
+    #details-screen .appbar { background-color: #03a9f4; }
+    #details-screen .body {
+      background: linear-gradient(135deg, #008be3 0%, #e91e63 100%);
+    }
+
+    /* Common Layout */
+    .body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      width: 320px;
+      padding: 30px 20px;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Card Content */
+    .title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #4a0e4e;
+      margin-top: 15px;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: #757575;
+      margin-bottom: 25px;
+    }
+    .info-text {
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 6px;
+    }
+    .bold-text {
+      font-weight: 600;
+    }
+
+    /* Buttons */
+    .btn {
+      border: none;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+      transition: opacity 0.2s;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+    .btn-pink { background-color: #e91e63; }
+    .btn-blue { background-color: #03a9f4; }
+    .btn-purple { background-color: #9c27b0; }
+
+    /* Icons */
+    .avatar-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #e91e63;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. HOME SCREEN -->
+  <div id="home-screen" class="screen active">
+    <div class="appbar">Home</div>
+    <div class="body">
+      <div class="card">
+        <svg width="60" height="60" viewBox="0 0 24 24" fill="#9c27b0"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <div class="title">Welcome Home!</div>
+        <div class="subtitle">Explore the different screens</div>
+        <button class="btn btn-pink" onclick="navigateTo('profile-screen')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          Go to Profile
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. PROFILE SCREEN -->
+  <div id="profile-screen" class="screen">
+    <div class="appbar">
+      <button class="back-btn" onclick="navigateBack()">&#8592;</button>
+      Profile
+    </div>
+    <div class="body">
+      <div class="card">
+        <div class="avatar-circle">
+          <svg width="50" height="50" viewBox="0 0 24 24" fill="white"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        </div>
+        <div class="title">Student Profile</div>
+        <div class="subtitle">Welcome to your profile page!</div>
+        <button class="btn btn-blue" onclick="navigateTo('details-screen')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+          View Details
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. DETAILS SCREEN -->
+  <div id="details-screen" class="screen">
+    <div class="appbar">
+      <button class="back-btn" onclick="navigateBack()">&#8592;</button>
+      Details
+    </div>
+    <div class="body">
+      <div class="card">
+        <svg width="65" height="65" viewBox="0 0 24 24" fill="#03a9f4"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+        <div class="title">Student Details</div>
+        <div style="margin: 15px 0 25px 0;">
+          <div class="info-text bold-text">Name: SANTHOSH S URK23CS1170</div>
+          <div class="info-text">Course: Computer Science</div>
+          <div class="info-text">Department: CSE</div>
+        </div>
+        <button class="btn btn-purple" onclick="navigateBack()">
+          &#8592; Back to Profile
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const navigationStack = ['home-screen'];
+
+    function navigateTo(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+      navigationStack.push(screenId);
+    }
+
+    function navigateBack() {
+      if (navigationStack.length > 1) {
+        navigationStack.pop();
+        const previousScreen = navigationStack[navigationStack.length - 1];
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(previousScreen).classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>
